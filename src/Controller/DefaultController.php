@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends AbstractController
 {
@@ -40,5 +43,20 @@ class DefaultController extends AbstractController
     public function relatorios()
     {
         return new Response("<html><body><h1>Admin Relatórios</h1></body></html>");
+    }
+
+    /**
+     * @Route("/login", name="login")
+     * @Template("default/login.html.twig")
+     */
+    public function login(Request $request, AuthenticationUtils $auth)
+    {
+        $error = $auth->getLastAuthenticationError();
+        $lastUsername = $auth->getLastUsername();
+        
+        return [
+            'error' => $error,
+            'last_username' => $lastUsername
+        ];
     }
 }
