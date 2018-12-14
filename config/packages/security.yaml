@@ -5,8 +5,11 @@ security:
             memory:
                 users:
                     leandro:
-                        password: 123
+                        password: $2y$12$GUNeKD6M1JDQsd6pnOm/YO6OOalOpYRsrIfFaJS8vK3gGwykj0nC.
                         roles: 'ROLE_ADMIN'
+                    raquel:
+                        password: $2y$12$fJV8ByKOunUvq36K7XyVpO.frKqrVqhGQrQ7KlYN4QOMnPAaJb0bi
+                        roles: 'ROLE_USER'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -29,4 +32,6 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
 
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
