@@ -46,7 +46,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/admin/login", name="login")
      * @Template("default/login.html.twig")
      */
     public function login(Request $request, AuthenticationUtils $auth)
