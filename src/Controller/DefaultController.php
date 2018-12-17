@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -58,5 +60,40 @@ class DefaultController extends AbstractController
             'error' => $error,
             'last_username' => $lastUsername
         ];
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/insert")
+     */
+    public function insert(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // User
+        $user = new User();
+        $user->setUsername("leandromarchon");
+        $user->setEmail("leandromarchon@hotmail.com");
+        $user->setRoles("ROLE_USER");
+
+        $encoder = $this->get("security.password_encoder");
+        $pass = $encoder->encodePassword($user, "123");
+        $user->setPassword($pass);
+        $entityManager->persist($user);
+
+        // User Admin
+        $user = new User();
+        $user->setUsername("administrador");
+        $user->setEmail("administrador@hotmail.com");
+        $user->setRoles("ROLE_ADMIN");
+
+        $encoder = $this->get("security.password_encoder");
+        $pass = $encoder->encodePassword($user, "123");
+        $user->setPassword($pass);
+        $entityManager->persist($user);
+
+        $entityManager->flush();
+
+        return new Response("<html><body><h1>Registro inserido com sucesso!</h1></body></html>");
     }
 }

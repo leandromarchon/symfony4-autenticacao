@@ -1,15 +1,9 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory:
-                users:
-                    leandro:
-                        password: $2y$12$GUNeKD6M1JDQsd6pnOm/YO6OOalOpYRsrIfFaJS8vK3gGwykj0nC.
-                        roles: 'ROLE_ADMIN'
-                    raquel:
-                        password: $2y$12$fJV8ByKOunUvq36K7XyVpO.frKqrVqhGQrQ7KlYN4QOMnPAaJb0bi
-                        roles: 'ROLE_USER'
+        main:
+            entity: { class: App\Entity\User, property: username }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -46,6 +40,6 @@ security:
         ROLE_ADMIN: ROLE_USER
 
     encoders:
-        Symfony\Component\Security\Core\User\User:
+        App\Entity\User:
             algorithm: bcrypt
             cost: 12
